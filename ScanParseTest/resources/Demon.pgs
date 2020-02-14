@@ -1,5 +1,8 @@
- #def  KNOD int, I int, J int
-    ewe ajdkjakdjkajd ewaewae
+#for I=1 to KNOD
+     #for J=1 to KNOD
+        INITIAL   MX$DISTR(&I,&J),&PROB(I,J)
+     #next J
+#next I 
 #read KNOD
 #def  TARR(KNOD) real, TSERV(KNOD) real, STOR(KNOD) int, PROB(KNOD,KNOD) real
 #read TARR
@@ -13,6 +16,8 @@ DISTR   MATRIX    ,&KNOD,&KNOD
         INITIAL   MX$DISTR(&I,&J),&PROB(I,J)
      #next J
 #next I 
+
+
 IATR    FUNCTION  P$NODE,L&KNOD
 #for I=1 to KNOD
 &I,&TARR(I)

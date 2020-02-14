@@ -54,7 +54,7 @@ WS		[ \t]
 %s Operator
 %%
 
-<Operator,INITIAL>{WS}
+<Operator,INITIAL>{WS}+
 <Operator,INITIAL>"\n" { BEGIN(INITIAL); return '\n'; }
 <INITIAL>"#" { BEGIN(Operator); return '#'; }
 <INITIAL>[^#\n]+ { char* a = yytext; return TKN_CleanString; }
