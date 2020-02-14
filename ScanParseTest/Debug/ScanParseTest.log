@@ -1,7 +1,6 @@
 ﻿  Performing Custom Build Tools
+  lexer.l:88: warning, -s option given but default rule can be matched
   ParseTree.cpp
   lexer.cpp
-  parser.cpp
-C:\dev\ScanParseTest\ScanParseTest\parser.cpp(1413,5): warning C4065: оператор switch содержит метку "default", но не содержит ни одной метки "case"
-  Создание кода...
-  ScanParseTest.vcxproj -> C:\dev\ScanParseTest\Debug\ScanParseTest.exe
+  Generating Code...
+  ScanParseTest.vcxproj -> C:\dev\preprocessor\ScanParseTest\Debug\ScanParseTest.exe

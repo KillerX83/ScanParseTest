@@ -1,6 +1,5 @@
 	// output file definitions
 %option outfile="lexer.cpp" header-file="lexer.h"
-
 	// 8 bit scanner for unicode processing
 	// reentrant scanner
 %option 8bit reentrant noyywrap
@@ -51,13 +50,14 @@ INTG	[0-9]+
 FLOAT	[0-9]+.[0-9]+
 CHARS	[a-zA-Z]+
 WS		[ \t]
+CLEANSTRING ^[^#][^\n]*
 %s Operator
 %%
 
 <Operator,INITIAL>{WS}+
-<Operator,INITIAL>"\n" { BEGIN(INITIAL); return '\n'; }
+<Operator,INITIAL>"\n" { BEGIN(INITIAL); printf("LINE %d", yylineno); return '\n'; }
 <INITIAL>"#" { BEGIN(Operator); return '#'; }
-<INITIAL>[^#\n]+ { char* a = yytext; return TKN_CleanString; }
+<INITIAL>{CLEANSTRING} { char* a = yytext; return TKN_CleanString; }
 
 <Operator>"," |
 "("  |

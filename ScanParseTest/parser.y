@@ -104,6 +104,7 @@ statement: '#' for identifier '=' expression to expression '\n' list  '\n'
 	| '#' def DefOp '\n' 
 	| '#' read ReadOp '\n' 
 	| CleanString '\n'
+	| '\n'
 	;
 
 DefOp: variable type 
