@@ -1,0 +1,606 @@
+Terminals unused in grammar
+
+    DEBUG_ON
+    DEBUG_OFF
+    '&'
+    CleanString
+
+
+Rules useless in parser due to conflicts
+
+   17 list: %empty
+
+
+State 43 conflicts: 1 shift/reduce
+State 45 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: %empty
+    2        | program statement
+
+    3 statement: '#' for identifier '=' expression to expression '\n' list '#' next
+    4          | '#' def DefOp '\n'
+    5          | '#' read ReadOp '\n'
+
+    6 DefOp: variable type
+    7      | variable type ',' DefOp
+
+    8 ReadOp: variable
+    9       | variable ',' ReadOp
+
+   10 expression: constant
+   11           | variable
+   12           | expression '+' expression
+   13           | expression '-' expression
+   14           | expression '*' expression
+   15           | expression '/' expression
+   16           | '(' expression ')'
+
+   17 list: %empty
+   18     | statement list
+
+   19 variable: identifier
+   20         | identifier '(' expression ')'
+   21         | identifier '(' expression ',' expression ')'
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\n' (10) 3 4 5
+    '#' (35) 3 4 5
+    '&' (38)
+    '(' (40) 16 20 21
+    ')' (41) 16 20 21
+    '*' (42) 14
+    '+' (43) 12
+    ',' (44) 7 9 21
+    '-' (45) 13
+    '/' (47) 15
+    '=' (61) 3
+    error (256)
+    DEBUG_ON (258)
+    DEBUG_OFF (259)
+    CleanString (260)
+    for (261) 3
+    next (262) 3
+    to (263) 3
+    read (264) 5
+    def (265) 4
+    identifier (266) 3 19 20 21
+    constant (267) 10
+    type (268) 6 7
+
+
+Nonterminals, with rules where they appear
+
+    $accept (25)
+        on left: 0
+    program (26)
+        on left: 1 2
+        on right: 0 2
+    statement (27)
+        on left: 3 4 5
+        on right: 2 18
+    DefOp (28)
+        on left: 6 7
+        on right: 4 7
+    ReadOp (29)
+        on left: 8 9
+        on right: 5 9
+    expression (30)
+        on left: 10 11 12 13 14 15 16
+        on right: 3 12 13 14 15 16 20 21
+    list (31)
+        on left: 17 18
+        on right: 3 18
+    variable (32)
+        on left: 19 20 21
+        on right: 6 7 8 9 11
+
+
+State 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 1 (program)
+
+    program  go to state 1
+
+
+State 1
+
+    0 $accept: program . $end
+    2 program: program . statement
+
+    $end  shift, and go to state 2
+    '#'   shift, and go to state 3
+
+    statement  go to state 4
+
+
+State 2
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 3
+
+    3 statement: '#' . for identifier '=' expression to expression '\n' list '#' next
+    4          | '#' . def DefOp '\n'
+    5          | '#' . read ReadOp '\n'
+
+    for   shift, and go to state 5
+    read  shift, and go to state 6
+    def   shift, and go to state 7
+
+
+State 4
+
+    2 program: program statement .
+
+    $default  reduce using rule 2 (program)
+
+
+State 5
+
+    3 statement: '#' for . identifier '=' expression to expression '\n' list '#' next
+
+    identifier  shift, and go to state 8
+
+
+State 6
+
+    5 statement: '#' read . ReadOp '\n'
+
+    identifier  shift, and go to state 9
+
+    ReadOp    go to state 10
+    variable  go to state 11
+
+
+State 7
+
+    4 statement: '#' def . DefOp '\n'
+
+    identifier  shift, and go to state 9
+
+    DefOp     go to state 12
+    variable  go to state 13
+
+
+State 8
+
+    3 statement: '#' for identifier . '=' expression to expression '\n' list '#' next
+
+    '='  shift, and go to state 14
+
+
+State 9
+
+   19 variable: identifier .
+   20         | identifier . '(' expression ')'
+   21         | identifier . '(' expression ',' expression ')'
+
+    '('  shift, and go to state 15
+
+    $default  reduce using rule 19 (variable)
+
+
+State 10
+
+    5 statement: '#' read ReadOp . '\n'
+
+    '\n'  shift, and go to state 16
+
+
+State 11
+
+    8 ReadOp: variable .
+    9       | variable . ',' ReadOp
+
+    ','  shift, and go to state 17
+
+    $default  reduce using rule 8 (ReadOp)
+
+
+State 12
+
+    4 statement: '#' def DefOp . '\n'
+
+    '\n'  shift, and go to state 18
+
+
+State 13
+
+    6 DefOp: variable . type
+    7      | variable . type ',' DefOp
+
+    type  shift, and go to state 19
+
+
+State 14
+
+    3 statement: '#' for identifier '=' . expression to expression '\n' list '#' next
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 22
+    variable    go to state 23
+
+
+State 15
+
+   20 variable: identifier '(' . expression ')'
+   21         | identifier '(' . expression ',' expression ')'
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 24
+    variable    go to state 23
+
+
+State 16
+
+    5 statement: '#' read ReadOp '\n' .
+
+    $default  reduce using rule 5 (statement)
+
+
+State 17
+
+    9 ReadOp: variable ',' . ReadOp
+
+    identifier  shift, and go to state 9
+
+    ReadOp    go to state 25
+    variable  go to state 11
+
+
+State 18
+
+    4 statement: '#' def DefOp '\n' .
+
+    $default  reduce using rule 4 (statement)
+
+
+State 19
+
+    6 DefOp: variable type .
+    7      | variable type . ',' DefOp
+
+    ','  shift, and go to state 26
+
+    $default  reduce using rule 6 (DefOp)
+
+
+State 20
+
+   10 expression: constant .
+
+    $default  reduce using rule 10 (expression)
+
+
+State 21
+
+   16 expression: '(' . expression ')'
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 27
+    variable    go to state 23
+
+
+State 22
+
+    3 statement: '#' for identifier '=' expression . to expression '\n' list '#' next
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+
+    to   shift, and go to state 28
+    '+'  shift, and go to state 29
+    '-'  shift, and go to state 30
+    '*'  shift, and go to state 31
+    '/'  shift, and go to state 32
+
+
+State 23
+
+   11 expression: variable .
+
+    $default  reduce using rule 11 (expression)
+
+
+State 24
+
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+   20 variable: identifier '(' expression . ')'
+   21         | identifier '(' expression . ',' expression ')'
+
+    ','  shift, and go to state 33
+    '+'  shift, and go to state 29
+    '-'  shift, and go to state 30
+    '*'  shift, and go to state 31
+    '/'  shift, and go to state 32
+    ')'  shift, and go to state 34
+
+
+State 25
+
+    9 ReadOp: variable ',' ReadOp .
+
+    $default  reduce using rule 9 (ReadOp)
+
+
+State 26
+
+    7 DefOp: variable type ',' . DefOp
+
+    identifier  shift, and go to state 9
+
+    DefOp     go to state 35
+    variable  go to state 13
+
+
+State 27
+
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+   16           | '(' expression . ')'
+
+    '+'  shift, and go to state 29
+    '-'  shift, and go to state 30
+    '*'  shift, and go to state 31
+    '/'  shift, and go to state 32
+    ')'  shift, and go to state 36
+
+
+State 28
+
+    3 statement: '#' for identifier '=' expression to . expression '\n' list '#' next
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 37
+    variable    go to state 23
+
+
+State 29
+
+   12 expression: expression '+' . expression
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 38
+    variable    go to state 23
+
+
+State 30
+
+   13 expression: expression '-' . expression
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 39
+    variable    go to state 23
+
+
+State 31
+
+   14 expression: expression '*' . expression
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 40
+    variable    go to state 23
+
+
+State 32
+
+   15 expression: expression '/' . expression
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 41
+    variable    go to state 23
+
+
+State 33
+
+   21 variable: identifier '(' expression ',' . expression ')'
+
+    identifier  shift, and go to state 9
+    constant    shift, and go to state 20
+    '('         shift, and go to state 21
+
+    expression  go to state 42
+    variable    go to state 23
+
+
+State 34
+
+   20 variable: identifier '(' expression ')' .
+
+    $default  reduce using rule 20 (variable)
+
+
+State 35
+
+    7 DefOp: variable type ',' DefOp .
+
+    $default  reduce using rule 7 (DefOp)
+
+
+State 36
+
+   16 expression: '(' expression ')' .
+
+    $default  reduce using rule 16 (expression)
+
+
+State 37
+
+    3 statement: '#' for identifier '=' expression to expression . '\n' list '#' next
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+
+    '\n'  shift, and go to state 43
+    '+'   shift, and go to state 29
+    '-'   shift, and go to state 30
+    '*'   shift, and go to state 31
+    '/'   shift, and go to state 32
+
+
+State 38
+
+   12 expression: expression . '+' expression
+   12           | expression '+' expression .
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+
+    '*'  shift, and go to state 31
+    '/'  shift, and go to state 32
+
+    $default  reduce using rule 12 (expression)
+
+
+State 39
+
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   13           | expression '-' expression .
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+
+    '*'  shift, and go to state 31
+    '/'  shift, and go to state 32
+
+    $default  reduce using rule 13 (expression)
+
+
+State 40
+
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   14           | expression '*' expression .
+   15           | expression . '/' expression
+
+    $default  reduce using rule 14 (expression)
+
+
+State 41
+
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+   15           | expression '/' expression .
+
+    $default  reduce using rule 15 (expression)
+
+
+State 42
+
+   12 expression: expression . '+' expression
+   13           | expression . '-' expression
+   14           | expression . '*' expression
+   15           | expression . '/' expression
+   21 variable: identifier '(' expression ',' expression . ')'
+
+    '+'  shift, and go to state 29
+    '-'  shift, and go to state 30
+    '*'  shift, and go to state 31
+    '/'  shift, and go to state 32
+    ')'  shift, and go to state 44
+
+
+State 43
+
+    3 statement: '#' for identifier '=' expression to expression '\n' . list '#' next
+
+    '#'  shift, and go to state 3
+
+    '#'  [reduce using rule 17 (list)]
+
+    statement  go to state 45
+    list       go to state 46
+
+
+State 44
+
+   21 variable: identifier '(' expression ',' expression ')' .
+
+    $default  reduce using rule 21 (variable)
+
+
+State 45
+
+   18 list: statement . list
+
+    '#'  shift, and go to state 3
+
+    '#'  [reduce using rule 17 (list)]
+
+    statement  go to state 45
+    list       go to state 47
+
+
+State 46
+
+    3 statement: '#' for identifier '=' expression to expression '\n' list . '#' next
+
+    '#'  shift, and go to state 48
+
+
+State 47
+
+   18 list: statement list .
+
+    $default  reduce using rule 18 (list)
+
+
+State 48
+
+    3 statement: '#' for identifier '=' expression to expression '\n' list '#' . next
+
+    next  shift, and go to state 49
+
+
+State 49
+
+    3 statement: '#' for identifier '=' expression to expression '\n' list '#' next .
+
+    $default  reduce using rule 3 (statement)

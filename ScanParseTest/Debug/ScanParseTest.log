@@ -1,0 +1,6 @@
+﻿  Performing Custom Build Tools
+  lexer.l:88: warning, -s option given but default rule can be matched
+  ParseTree.cpp
+  lexer.cpp
+  Generating Code...
+  ScanParseTest.vcxproj -> C:\dev\preprocessor\ScanParseTest\Debug\ScanParseTest.exe
