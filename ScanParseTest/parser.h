@@ -67,12 +67,12 @@ extern int yydebug;
   {
     TKN_DEBUG_ON = 258,
     TKN_DEBUG_OFF = 259,
-    TKN_CleanString = 260,
-    TKN_for = 261,
-    TKN_next = 262,
-    TKN_to = 263,
-    TKN_read = 264,
-    TKN_def = 265,
+    TKN_for = 260,
+    TKN_next = 261,
+    TKN_to = 262,
+    TKN_read = 263,
+    TKN_def = 264,
+    TKN_misc = 265,
     TKN_identifier = 266,
     TKN_constant = 267,
     TKN_type = 268

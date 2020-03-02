@@ -6,6 +6,7 @@
 class CParseTree
 {
 public:
+	
 	CParseTree();
 	~CParseTree();
 

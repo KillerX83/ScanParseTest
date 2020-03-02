@@ -82,7 +82,7 @@
 
 %token	DEBUG_ON DEBUG_OFF
 %token '#' '&'  ',' '\n' 
-%token CleanString for next to read def
+%token for next to read def misc
 %token  identifier
 %token constant
 %token  type
@@ -103,7 +103,12 @@ program: %empty
 statement: '#' for identifier '=' expression to expression '\n' list  '\n'
 	| '#' def DefOp '\n' 
 	| '#' read ReadOp '\n' 
-	| CleanString '\n'
+	| text
+	| '\n'
+	;
+
+text: misc '&' variable text
+	| '&' variable text
 	| '\n'
 	;
 
@@ -116,7 +121,7 @@ ReadOp: variable
 	;
 
 expression: constant	
-	| variable		
+	| variable
 	| expression '+' expression 
 	| expression '-' expression	
 	| expression '*' expression	
@@ -124,7 +129,7 @@ expression: constant
 	| '(' expression ')'		
 	;
 
-list: '#' next identifier
+list: '#' next identifier		// можно ли убрать связь list и for?
 	| statement list 
 	;
 

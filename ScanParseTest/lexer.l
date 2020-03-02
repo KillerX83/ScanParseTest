@@ -40,46 +40,59 @@
 	#include <iostream>
 	#include <cmath>
 	#include <cstring>
+	#include <stdio.h>
 	
 	using namespace std;
 
 	#include "parser.h"
+	static int braces = 0;
 }
 
 INTG	[0-9]+
-FLOAT	[0-9]+.[0-9]+
-CHARS	[a-zA-Z]+
+FLOAT	[0-9]+\.[0-9]+
+ID	[a-zA-Z]+
 WS		[ \t]
-CLEANSTRING ^[^#][^\n]*
-%s Operator
+MISC ^[^#\t ][^\n&]*
+%s operator
+%s substitution
 %%
 
-<Operator,INITIAL>{WS}+
-<Operator,INITIAL>"\n" { BEGIN(INITIAL); printf("LINE %d", yylineno); return '\n'; }
-<INITIAL>"#" { BEGIN(Operator); return '#'; }
-<INITIAL>{CLEANSTRING} { char* a = yytext; return TKN_CleanString; }
-
-<Operator>"," |
+<operator,INITIAL,substitution>{WS}+
+<INITIAL>"#" { BEGIN(operator); return '#'; }
+<INITIAL>{MISC} { printf("%s ", yytext); return TKN_misc; }
+<operator,INITIAL>"\n" { BEGIN(INITIAL); printf("LINE %d ", yylineno); return '\n'; }
+<operator,substitution>"," |
 "("  |
 "+"  |
 "-"  |
 "*"  |
 "/"  |
-"&"  |
 "="  |
 ")" { return yytext[0];}
 
-<Operator>"def" { return TKN_def; }
-<Operator>"read" { return TKN_read; }
-<Operator>"for" { return TKN_for; }
-<Operator>"to" { return TKN_to; }
-<Operator>"next" { return TKN_next; }
-<Operator>"int" {return TKN_type; }
-<Operator>"real" {return TKN_type; }
+"&" { BEGIN(substitution); return '&';}
 
-<Operator>{CHARS}+ { return TKN_identifier; }
-<Operator>{INTG}+	{ return TKN_constant; }
-<Operator>{FLOAT}+ { return TKN_constant; }
+<operator>"def" { return TKN_def; }
+<operator>"read" { return TKN_read; }
+<operator>"for" { return TKN_for; }
+<operator>"to" { return TKN_to; }
+<operator>"next" { return TKN_next; }
+<operator>"int" {return TKN_type; }
+<operator>"real" {return TKN_type; }
+
+
+<substitution>{ID} { 
+	if (braces == 0) BEGIN(INITIAL);
+	return TKN_identifier; 
+}
+<substitution>{ID}/"(" { 
+	braces++;
+	return TKN_identifier; 
+}
+<substitution>")" { braces--; return ')'; }
+<operator>{ID} { return TKN_identifier; }
+<operator,substitution>{INTG}	{ return TKN_constant; }
+<operator,substitution>{FLOAT} { return TKN_constant; }
 
 
 

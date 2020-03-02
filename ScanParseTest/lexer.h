@@ -12,12 +12,14 @@
 	#include <iostream>
 	#include <cmath>
 	#include <cstring>
+	#include <stdio.h>
 	
 	using namespace std;
 
 	#include "parser.h"
+	static int braces = 0;
 
-#line 20 "lexer.h"
+#line 22 "lexer.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -260,7 +262,8 @@ void yyfree ( void * , yyscan_t yyscanner );
 
 #ifdef YY_HEADER_EXPORT_START_CONDITIONS
 #define INITIAL 0
-#define Operator 1
+#define operator 1
+#define substitution 2
 
 #endif
 
@@ -527,9 +530,9 @@ extern int yylex \
 #undef yyTABLES_NAME
 #endif
 
-#line 88 "lexer.l"
+#line 101 "lexer.l"
 
 
-#line 533 "lexer.h"
+#line 536 "lexer.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */
