@@ -51,26 +51,38 @@
 INTG	[0-9]+
 FLOAT	[0-9]+\.[0-9]+
 ID	[a-zA-Z]+
-WS		[ \t]
-MISC ^[^#\t ][^\n&]*
+STRING [^#\t&\n ][^\n&]*
 %s operator
 %s substitution
 %%
 
-<operator,INITIAL,substitution>{WS}+
+<operator,INITIAL,substitution>[\t ]+
 <INITIAL>"#" { BEGIN(operator); return '#'; }
-<INITIAL>{MISC} { printf("%s ", yytext); return TKN_misc; }
-<operator,INITIAL>"\n" { BEGIN(INITIAL); printf("LINE %d ", yylineno); return '\n'; }
+<INITIAL>{STRING} { printf("%s ", yytext); return TKN_string; }
+<operator,INITIAL>"\n" { BEGIN(INITIAL); printf("\n\nLINE %d\n\n", yylineno); return '\n'; }
+"&" { BEGIN(substitution); return '&';}
+
+
+<substitution>"(" { braces++; return '('; }
+
+<substitution>{ID} { 
+	if (braces == 0) BEGIN(INITIAL);
+	return TKN_identifier; 
+}
+<substitution>{ID}/"(" { 
+	return TKN_identifier; 
+}
+<substitution>")" { braces--; if (braces == 0) BEGIN(INITIAL); return ')'; }
+
 <operator,substitution>"," |
-"("  |
 "+"  |
 "-"  |
 "*"  |
 "/"  |
-"="  |
-")" { return yytext[0];}
+"="   { return yytext[0];}
 
-"&" { BEGIN(substitution); return '&';}
+<operator>"(" |
+")" { return yytext[0]; }
 
 <operator>"def" { return TKN_def; }
 <operator>"read" { return TKN_read; }
@@ -81,15 +93,7 @@ MISC ^[^#\t ][^\n&]*
 <operator>"real" {return TKN_type; }
 
 
-<substitution>{ID} { 
-	if (braces == 0) BEGIN(INITIAL);
-	return TKN_identifier; 
-}
-<substitution>{ID}/"(" { 
-	braces++;
-	return TKN_identifier; 
-}
-<substitution>")" { braces--; return ')'; }
+
 <operator>{ID} { return TKN_identifier; }
 <operator,substitution>{INTG}	{ return TKN_constant; }
 <operator,substitution>{FLOAT} { return TKN_constant; }

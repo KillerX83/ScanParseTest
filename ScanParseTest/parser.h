@@ -72,7 +72,7 @@ extern int yydebug;
     TKN_to = 262,
     TKN_read = 263,
     TKN_def = 264,
-    TKN_misc = 265,
+    TKN_string = 265,
     TKN_identifier = 266,
     TKN_constant = 267,
     TKN_type = 268

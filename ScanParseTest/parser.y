@@ -82,7 +82,7 @@
 
 %token	DEBUG_ON DEBUG_OFF
 %token '#' '&'  ',' '\n' 
-%token for next to read def misc
+%token for next to read def string
 %token  identifier
 %token constant
 %token  type
@@ -103,12 +103,13 @@ program: %empty
 statement: '#' for identifier '=' expression to expression '\n' list  '\n'
 	| '#' def DefOp '\n' 
 	| '#' read ReadOp '\n' 
-	| text
+	| line
 	| '\n'
 	;
 
-text: misc '&' variable text
-	| '&' variable text
+line: string '&' variable line
+	| string '\n'
+	| '&' variable line
 	| '\n'
 	;
 

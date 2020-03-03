@@ -1,2 +1,8 @@
-﻿ReentrantApp.obj : warning LNK4099: PDB 'vc142.pdb' was not found with 'ReentrantApp.obj' or at 'C:\dev\preprocessor\ScanParseTest\Debug\vc142.pdb'; linking object as if no debug info
+﻿  Performing Custom Build Tools
+  lexer.l:105: warning, -s option given but default rule can be matched
+  lexer.cpp
+  parser.cpp
+C:\dev\preprocessor\ScanParseTest\ScanParseTest\parser.cpp(1418,5): warning C4065: switch statement contains 'default' but no 'case' labels
+  ParseTree.cpp
+  Generating Code...
   ScanParseTest.vcxproj -> C:\dev\preprocessor\ScanParseTest\Debug\ScanParseTest.exe
